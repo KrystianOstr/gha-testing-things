@@ -29,6 +29,7 @@ jobs:
         with:
           path: node_modules/.vite
           key: ${{ runner.os }}-vite-${{ hashFiles('**/package-lock.json', 'vite.config.*') }}
+          restore-keys: ${{ runner.os }}-vite-
 
       - name: build
         run: |
