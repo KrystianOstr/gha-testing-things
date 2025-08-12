@@ -1,0 +1,19 @@
+name: Debug
+
+on: workflow_dispatch
+
+jobs:
+  checking-things:
+    runs-on: ubuntu-latest
+    steps:
+      - name: get the code
+        uses: actions/checkout@v4
+
+      - name: check working dir
+        run: pwd
+
+      - name: check files
+        run: ls -la
+
+      - name: check envs
+        run: env
