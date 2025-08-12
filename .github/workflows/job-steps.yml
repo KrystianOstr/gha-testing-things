@@ -20,7 +20,14 @@ jobs:
         run: ls -la
 
   second-job:
+    needs: first-job
     runs-on: ubuntu-latest
     steps:
       - name: hello from job2
         run: echo "Hello from job2, started after job1"
+
+  third-job:
+    runs-on: ubuntu-latest
+    steps:
+      - name: hello from 3rd job
+        run: echo "This is job 3"
