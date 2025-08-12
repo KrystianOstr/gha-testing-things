@@ -2,7 +2,7 @@ name: jobs n secrets
 
 on:
   workflow_dispatch:
-  push:
+  # push:
 
 jobs:
   first-job:

@@ -1,0 +1,32 @@
+name: Cache
+
+on:
+  push:
+  workflow_dispatch:
+
+jobs:
+  first-job:
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout
+        uses: actions/checkout@v4
+
+      - name: install nodeJS
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20.x
+          cache: "npm"
+
+      - name: start timer for CI
+        run: |
+          START=$(date +%s)
+          npm ci
+          END=$(date +%s)
+          echo "install_s=${END-START}"
+
+      - name: build
+        run: |
+          START_B=$(date +%s)
+          npm run build
+          END_B=$(date +%s)
+          echo "build_s=${END_B-START_B}"
