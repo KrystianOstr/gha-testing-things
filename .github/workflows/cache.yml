@@ -22,11 +22,11 @@ jobs:
           START=$(date +%s)
           npm ci
           END=$(date +%s)
-          echo "install_s=${END-START}"
+          echo "install_s=$(( END_B - START_B ))"
 
       - name: build
         run: |
           START_B=$(date +%s)
           npm run build
           END_B=$(date +%s)
-          echo "build_s=${END_B-START_B}"
+          echo "build_s=$(( END_B - START_B ))"
