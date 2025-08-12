@@ -1,0 +1,25 @@
+name: jobs n secrets
+
+on:
+  workflow_dispatch:
+
+jobs:
+  first-job:
+    runs-on: ubuntu-latest
+    steps:
+      - name: show runner info
+        run: |
+          echo "Runner: $RUNNER_OS"
+          echo "Arch: $RUNNER_ARCH"
+
+      - name: code checkout
+        uses: actions/checkout@v4
+
+      - name: List files
+        run: ls -la
+
+  second-job:
+    runs-on: ubuntu-latest
+    steps:
+      - name: hello from job2
+        run: echo "Hello from job2, started after job1"
