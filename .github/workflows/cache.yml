@@ -24,6 +24,12 @@ jobs:
           END=$(date +%s)
           echo "install_s=$(( END_B - START_B ))"
 
+      - name: manual cache
+        uses: actions/cache@v4
+        with:
+          path: node_modules/.vite
+          key: ${{ runner.os }}-vite-${{ hashFiles('**/package-lock.json', 'vite.config.*') }}
+
       - name: build
         run: |
           START_B=$(date +%s)
