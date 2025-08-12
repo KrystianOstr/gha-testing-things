@@ -1,0 +1,27 @@
+name: Debug
+
+on:
+  workflow_dispatch:
+  # push:
+
+jobs:
+  checking-things:
+    runs-on: ubuntu-latest
+    steps:
+      - name: show workspace (before checkout)
+        run: |
+          echo "pwd BEFORE:"; pwd
+          echo "GITHUB_WORKSPACE BEFORE: $GITHUB_WORKSPACE"
+          echo "github.workspace BEFORE: ${{ github.workspace }}"
+          echo "LIST BEFORE:"; ls -la
+      - name: get the code
+        uses: actions/checkout@v4
+
+      - name: show workspace (after checkout)
+        run: |
+          echo "pwd AFTER:"; pwd
+          echo "GITHUB_WORKSPACE AFTER: $GITHUB_WORKSPACE"
+          echo "LIST AFTER:"; ls -la
+
+      - name: check envs
+        run: env
