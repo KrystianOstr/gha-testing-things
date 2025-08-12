@@ -5,12 +5,12 @@ on:
     branches:
       - main
     paths:
-      - "README.md"
+      - "./github/workflows/*.yml"
   pull_request:
     branches:
       - main
     paths:
-      - "README.md"
+      - "./github/workflows/*.yml"
 
 jobs:
   echo-event:
@@ -21,3 +21,4 @@ jobs:
 
       - run: echo "Hello from $GITHUB_EVENT_NAME on $GITHUB_REF"
       - run: git status
+      - run: echo "123"
