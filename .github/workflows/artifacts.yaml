@@ -1,0 +1,81 @@
+name: Artifacts
+
+on:
+  push:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      actions: write
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Build info
+        run: |
+          echo "timestamp=$(date -u +%FT%TZ)" > build-info.txt
+          echo "sha=${GITHUB_SHA}"           >> build-info.txt
+          echo "actor=${GITHUB_ACTOR}"       >> build-info.txt
+
+      - name: Pack the file
+        run: |
+          mkdir -p dist && echo "hello" > dist/index.html
+          tar -czf dist.tar.gz dist/
+
+      - name: Upload artifact - 1
+        uses: actions/upload-artifact@v4
+        with:
+          name: build-info-${{ github.sha }}
+          path: build-info.txt
+          if-no-files-fould: error
+          retention-days: 5
+
+      - name: Upload artifact - 2
+        uses: actions/upload-artifact@v4
+        with:
+          name: web-dist-${{ github.sha }}
+          path: dist.tar.gz
+          if-no-files-found: error
+          retention-days: 5
+
+  report:
+    needs: [build]
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      actions: read
+
+    steps:
+      - name: Get artifact - 1
+        uses: actions/download-artifact@v4
+        with:
+          name: web-dist-${{ github.sha }}
+          path: ./artifacts
+
+      - name: check the artifact - 1
+        run: |
+          echo "== build-info =="
+          cat ./artifacts/build-info.txt
+
+          timestamp=$(grep '^timestamp=' ./artifacts/build-info.txt | cut -d= -f2-)
+          sha=$(grep '^sha=' ./artifacts/build-info.txt | cut -d= -f2-)
+          actor=$(grep '^actor=' ./artifacts/build-info.txt | cut -d= -f2-)
+
+          echo "Timestamp: $timestamp"
+          echo "SHA: $sha"
+          echo "Actor: $actor"
+
+      - name: Get artifact - 2
+        uses: actions/download-artifact@v4
+        with:
+          name: web-dist-${{ github.sha }}
+          path: ./artifacts
+
+      - name: Extract artifact - 2
+        run: |
+          ls -l ./artifacts
+          tar -tzf ./artifacts/dist.tar.gz | head -n 5
