@@ -31,7 +31,7 @@ jobs:
         with:
           name: build-info-${{ github.sha }}
           path: build-info.txt
-          if-no-files-fould: error
+          if-no-files-found: error
           retention-days: 5
 
       - name: Upload artifact - 2
@@ -53,7 +53,7 @@ jobs:
       - name: Get artifact - 1
         uses: actions/download-artifact@v4
         with:
-          name: web-dist-${{ github.sha }}
+          name: build-info-${{ github.sha }}
           path: ./artifacts
 
       - name: check the artifact - 1
