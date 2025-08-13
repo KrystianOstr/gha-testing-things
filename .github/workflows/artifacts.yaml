@@ -30,7 +30,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: build-info-${{ github.sha }}
-          path: build-info.tx
+          path: build-info.txt
           if-no-files-found: error
           retention-days: 5
 
