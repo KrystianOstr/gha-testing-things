@@ -42,6 +42,10 @@ jobs:
           if-no-files-found: error
           retention-days: 5
 
+      - name: Fail test
+        run: |
+          false
+
   report:
     needs: [build]
     runs-on: ubuntu-latest
